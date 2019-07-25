@@ -17,8 +17,8 @@ RUN apt-get update \
     && docker-clean
 
 # Install PSM2
-ARG PSM=IFS
-ARG PSMV=10.7.0.0.145
+ARG PSM=PSM2
+ARG PSMV=11.2.78
 ARG PSMD=opa-psm2-${PSM}_${PSMV}
 
 RUN curl -L https://github.com/intel/opa-psm2/archive/${PSM}_${PSMV}.tar.gz | tar -xzf - \
@@ -34,10 +34,10 @@ ARG DIR=mvapich${MAJV}-${MAJV}.${MINV}
 
 RUN curl http://mvapich.cse.ohio-state.edu/download/mvapich/mv${MAJV}/${DIR}.tar.gz | tar -xzf - \
     && cd ${DIR} \
-    && ./configure --with-device=ch3:psm --with-device=ch3:nemesis \
+    && ./configure --with-device=ch3:psm \
     && make -j $(nproc --all 2>/dev/null || echo 2) && make install \
     && mpicc examples/hellow.c -o /usr/bin/hellow \
     && cd ../ && rm -rf ${DIR} && rm -rf /usr/local/share/doc/mvapich2
 
 # Test installation - doesn't work without opa device
-#RUN mpirun -n 2 hellow
+RUN mpirun -n 2 hellow
