@@ -40,4 +40,4 @@ RUN curl http://mvapich.cse.ohio-state.edu/download/mvapich/mv${MAJV}/${DIR}.tar
     && cd ../ && rm -rf ${DIR} && rm -rf /usr/local/share/doc/mvapich2
 
 # Test installation - doesn't work without opa device
-RUN mpirun -n 2 hellow
+# RUN mpirun -n 2 hellow
